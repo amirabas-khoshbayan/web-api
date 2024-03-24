@@ -1,25 +1,19 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"log"
+	"fmt"
 	"web-api/config"
+	"web-api/delivery/httpserver"
 )
 
 func main() {
-
 	//get config
-	err := config.GetConfig()
-	if err != nil {
-		log.Fatalln(err)
-	}
+	cfg := config.GetConfig()
+	fmt.Println(cfg)
 
-	//init server
-	server := echo.New()
-	//routing
+	server := httpserver.New(cfg)
+	go func() {
+		server.Serve()
+	}()
 
-	//middleware
-
-	//start server
-	server.Start(":" + config.AppConfig.Server.Port)
 }
